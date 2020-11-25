@@ -1,26 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8" />
-  <title>Ionic App</title>
-
-  <base href="/" />
-
-  <meta name="color-scheme" content="light dark" />
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="msapplication-tap-highlight" content="no" />
-
-  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
-
-  <!-- add to homescreen for ios -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabs</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"/>
+  <style>
+    :root {
+      --ion-safe-area-top: 20px;
+      --ion-safe-area-bottom: 22px;
+    }
+  </style>
 </head>
-
 <body>
-  <app-root></app-root>
-</body>
+<ion-app>
+  <ion-tabs>
 
+    <ion-tab tab="messages">
+      <ion-header translucent>
+        <ion-toolbar>
+          <ion-title>Messages</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content fullscreen class="ion-padding">
+        <h1>Messages</h1>
+      </ion-content>
+    </ion-tab>
+
+    <ion-tab tab="add-friends">
+      <ion-header translucent>
+        <ion-toolbar>
+          <ion-title>Add Friends</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content fullscreen class="ion-padding">
+        <h1>Add Friends</h1>
+      </ion-content>
+    </ion-tab>
+
+    <ion-tab tab="settings">
+      <ion-header translucent>
+        <ion-toolbar>
+          <ion-title>Settings</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content fullscreen class="ion-padding">
+        <h1>Settings</h1>
+      </ion-content>
+    </ion-tab>
+
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="messages">
+        <ion-label>Messages</ion-label>
+        <ion-icon name="chatbubbles-outline"></ion-icon>
+      </ion-tab-button>
+      <ion-tab-button tab="add-friends">
+        <ion-label>Add Friends</ion-label>
+        <ion-icon name="person-add-outline"></ion-icon>
+      </ion-tab-button>
+      <ion-tab-button tab="settings">
+        <ion-label>Settings</ion-label>
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-app>
+</body>
 </html>
