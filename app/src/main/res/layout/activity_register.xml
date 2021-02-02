@@ -9,15 +9,16 @@
 
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="196dp"
+        android:id="@+id/Register"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="44dp"
         android:text="Registration"
         android:textColor="@color/white"
         android:textSize="36sp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="107dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/userName"
@@ -34,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/Register" />
 
     <EditText
         android:id="@+id/password"
@@ -46,6 +47,7 @@
         android:ems="10"
         android:hint="Enter Password"
         android:inputType="textPassword"
+        android:textColor="@color/white"
         android:textColorHint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,6 +63,7 @@
         android:ems="10"
         android:hint="Enter Email"
         android:inputType="textEmailAddress"
+        android:textColor="@color/white"
         android:textColorHint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

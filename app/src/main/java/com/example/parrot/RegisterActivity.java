@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity
 
                 if(TextUtils.isEmpty(userName_text) || TextUtils.isEmpty(email_text) || TextUtils.isEmpty(password_text))
                 {
-                    Toast.makeText(RegisterActivity.this, "Please Fill All Fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Please Fill In All Fields", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -84,7 +84,8 @@ public class RegisterActivity extends AppCompatActivity
                     hashMap.put("username", userName);
                     hashMap.put("imageURL", "default");
 
-                    myRef.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    myRef.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>()
+                    {
                         @Override
                         public void onComplete(@NonNull Task<Void> task)
                         {

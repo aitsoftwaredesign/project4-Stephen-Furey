@@ -8,5 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="ButtonColor">#08589e</color>
+    <color name="LoginButtonColour">#ffe0b3</color>
 
 </resources>
