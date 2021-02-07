@@ -15,13 +15,31 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity
 {
+    //Database Variables
     FirebaseAuth auth;
+    FirebaseUser firebaseUser;
 
+    //Login Activity Variables
     EditText email, password;
     Button loginButton, registerButton;
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(firebaseUser !=null)
+        {
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,7 +52,17 @@ public class LoginActivity extends AppCompatActivity
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
 
+        //Database Authentication
         auth = FirebaseAuth.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        //Ensures current user stays log in after app is closed
+        if(firebaseUser !=null)
+        {
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }
 
         loginButton.setOnClickListener(new View.OnClickListener()
         {

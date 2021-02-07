@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity
 
     private void RegisterNow(final String userName, String password, String email)
     {
-        auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>()
+        auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>()
         {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task)
