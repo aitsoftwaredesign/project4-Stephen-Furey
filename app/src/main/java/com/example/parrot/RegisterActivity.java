@@ -48,24 +48,22 @@ public class RegisterActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 String userName_text = userName.getText().toString();
-                String email_text = email.getText().toString();
                 String password_text = password.getText().toString();
+                String email_text = email.getText().toString();
 
-                if(TextUtils.isEmpty(userName_text) || TextUtils.isEmpty(email_text) || TextUtils.isEmpty(password_text))
+                if(TextUtils.isEmpty(userName_text) || TextUtils.isEmpty(password_text) || TextUtils.isEmpty(email_text))
                 {
                     Toast.makeText(RegisterActivity.this, "Please Fill In All Fields", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    RegisterNow(userName_text, email_text, password_text);
+                    RegisterNow(userName_text, password_text, email_text);
                 }
-
-
             }
         });
     }
 
-    private void RegisterNow(final String userName, String password, String email)
+    private void RegisterNow(String userName, String password, String email)
     {
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>()
         {
@@ -84,6 +82,7 @@ public class RegisterActivity extends AppCompatActivity
                     hashMap.put("username", userName);
                     hashMap.put("imageURL", "default");
 
+                    //if registration is successful...
                     myRef.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>()
                     {
                         @Override
