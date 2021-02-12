@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.parrot.Fragments.ChatFragment;
+import com.example.parrot.Fragments.MessageFragment;
 import com.example.parrot.Fragments.UsersFragment;
 import com.example.parrot.Model.Users;
 import com.google.android.material.tabs.TabLayout;
@@ -59,11 +59,11 @@ public class MainActivity extends AppCompatActivity
 
         //Used to move between tabs
         TabLayout tabLayout = findViewById(R.id.tabLayout);
-        ViewPager viewPager = findViewById(R.id.view_pager);
+        ViewPager viewPager = findViewById(R.id.ViewPager);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        viewPagerAdapter.addFragment(new ChatFragment(),"Chats");
+        viewPagerAdapter.addFragment(new MessageFragment(),"Messages");
         viewPagerAdapter.addFragment(new UsersFragment(),"Users");
 
         viewPager.setAdapter(viewPagerAdapter);
