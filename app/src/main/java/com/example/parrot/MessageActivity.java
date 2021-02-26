@@ -2,6 +2,7 @@ package com.example.parrot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -10,11 +11,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.example.parrot.Adapter.MessageAdapter;
+import com.example.parrot.Model.Chat;
 import com.example.parrot.Model.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,7 +28,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MessageActivity extends AppCompatActivity
 {
@@ -39,6 +45,10 @@ public class MessageActivity extends AppCompatActivity
     DatabaseReference myRef;
 
     Intent intent;
+
+    MessageAdapter messageAdapter;
+    List<Chat> chat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -49,6 +59,17 @@ public class MessageActivity extends AppCompatActivity
         username = findViewById(R.id.username);
         send_button = findViewById(R.id.btn_send);
         msg_editText = findViewById(R.id.text_send);
+
+        //recycler view
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -102,7 +123,7 @@ public class MessageActivity extends AppCompatActivity
                String msg = msg_editText.getText().toString();
                if(!msg.equals(""))
                {
-                   sendMessage(FirebaseUser.getUid(), userid, msg);
+                   sendMessage(firebaseUser.getUid(), userid, msg);
                }
                else
                {
@@ -128,5 +149,38 @@ public class MessageActivity extends AppCompatActivity
         hashMap.put("message", message);
 
         reference.child("Chats").push().setValue(hashMap);
+    }
+
+    private void readMessages(String myid, String userid, String imageURL)
+    {
+        chat = new ArrayList<>();
+        myRef = FirebaseDatabase.getInstance().getReference("Chats");
+        myRef.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                chat.clear();
+                for(DataSnapshot snapshot : DataSnapshot.getChildren())
+                {
+                    Chat chat = snapshot.getValue(Chat.class);
+
+                    if(chat.getReceiver().equals(myid) && chat.getSender().equals(userid) || chat.getReceiver().equals(userid) && chat.getSender().equals(myid))
+                    {
+                        chat.add(chat);
+                    }
+
+                    messageAdapter = new MessageAdapter(MessageActivity.this, chat, imageURL);
+                    recyclerView.setAdapter(messageAdapter);
+                }
+                readMessages(firebaseUser.getUid(), userid, user.getImageURL());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+
+            }
+        });
+
     }
 }
