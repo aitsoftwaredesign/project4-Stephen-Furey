@@ -3,6 +3,9 @@
     package="com.example.parrot">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <uses-feature android:name="android.hardware.type.watch" />
 
@@ -13,6 +16,7 @@
         android:roundIcon="@drawable/parrot"
         android:supportsRtl="true"
         android:theme="@style/Theme.Parrot">
+
         <activity
             android:name=".MessageActivity"
             android:label="@string/title_activity_message">

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.parrot.Fragments.MessageFragment;
+import com.example.parrot.Fragments.ProfileFragment;
 import com.example.parrot.Fragments.UsersFragment;
 import com.example.parrot.Model.Users;
 import com.google.android.material.tabs.TabLayout;
@@ -65,6 +66,8 @@ public class MainActivity extends AppCompatActivity
 
         viewPagerAdapter.addFragment(new MessageFragment(),"Messages");
         viewPagerAdapter.addFragment(new UsersFragment(),"Users");
+        viewPagerAdapter.addFragment(new ProfileFragment(),"Profile");
+
 
         viewPager.setAdapter(viewPagerAdapter);
 
