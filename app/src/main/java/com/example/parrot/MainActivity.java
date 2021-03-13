@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.parrot.Fragments.MessageFragment;
+import com.example.parrot.Fragments.ChatsFragment;
 import com.example.parrot.Fragments.ProfileFragment;
 import com.example.parrot.Fragments.UsersFragment;
 import com.example.parrot.Model.Users;
@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        myRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        myRef = FirebaseDatabase.getInstance().getReference("MyUsers").child(firebaseUser.getUid());
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot)
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        viewPagerAdapter.addFragment(new MessageFragment(),"Messages");
+        viewPagerAdapter.addFragment(new ChatsFragment(),"Messages");
         viewPagerAdapter.addFragment(new UsersFragment(),"Users");
         viewPagerAdapter.addFragment(new ProfileFragment(),"Profile");
 
@@ -89,8 +90,7 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                finish();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 return true;
         }
         return false;
@@ -133,5 +133,28 @@ public class MainActivity extends AppCompatActivity
         {
             return titles.get(position);
         }
+    }
+
+    private void CheckStatus(String status)
+    {
+        myRef = FirebaseDatabase.getInstance().getReference("MyUsers").child(firebaseUser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("Status", status);
+
+        myRef.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        CheckStatus("Online");
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        CheckStatus("Offline");
     }
 }

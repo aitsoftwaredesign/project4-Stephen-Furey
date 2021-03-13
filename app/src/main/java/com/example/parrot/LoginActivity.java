@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         //Ensures current user stays log in after app is closed
-        if(firebaseUser !=null)
+        if(firebaseUser != null)
         {
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);

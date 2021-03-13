@@ -47,8 +47,10 @@ public class MessageActivity extends AppCompatActivity
     Intent intent;
 
     MessageAdapter messageAdapter;
-    List<Chat> chat;
+    List<Chat> myChat;
     String userid;
+
+    ValueEventListener seenListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -125,7 +127,40 @@ public class MessageActivity extends AppCompatActivity
         });
     }
 
-    private void setSupportActionBar(Toolbar toolbar) {
+    private void SeenMessage(String userid)
+    {
+        myRef = FirebaseDatabase.getInstance().getReference("Chats");
+
+        seenListener = myRef.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    Chat chat = snapshot.getValue(Chat.class);
+
+                    if(chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid))
+                    {
+                        HashMap<String, Object> hashMap = new HashMap<>();
+
+                        hashMap.put("seenTrue", true);
+                        snapshot.getRef().updateChildren(hashMap);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+
+            }
+        });
+
+        SeenMessage(userid);
+    }
+
+    private void setSupportActionBar(Toolbar toolbar)
+    {
 
     }
 
@@ -137,6 +172,7 @@ public class MessageActivity extends AppCompatActivity
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
         hashMap.put("message", message);
+        hashMap.put("seenTrue", false);
 
         reference.child("Chats").push().setValue(hashMap);
 
@@ -161,26 +197,26 @@ public class MessageActivity extends AppCompatActivity
 
     private void readMessages (String myid, String userid, String imageURL)
     {
-        chat = new ArrayList<>();
+        myChat = new ArrayList<>();
         myRef = FirebaseDatabase.getInstance().getReference("Chats");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-                chat.clear();
-                for (DataSnapshot snapshot : DataSnapshot.getChildren())
+                myChat.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
                     Chat chat = snapshot.getValue(Chat.class);
 
                     if (chat.getReceiver().equals(myid) && chat.getSender().equals(userid) || chat.getReceiver().equals(userid) && chat.getSender().equals(myid))
                     {
-                        chat.add(chat);
+                        myChat.add(chat);
                     }
 
-                    messageAdapter = new MessageAdapter(MessageActivity.this, chat, imageURL);
+                    messageAdapter = new MessageAdapter(MessageActivity.this, myChat, imageURL);
                     recyclerView.setAdapter(messageAdapter);
                 }
-                readMessages(firebaseUser.getUid(), userid, user.getImageURL());
+                //readMessages(firebaseUser.getUid(), userid, user.getImageURL());
             }
 
             @Override
@@ -188,5 +224,28 @@ public class MessageActivity extends AppCompatActivity
 
             }
         });
+    }
+    private void CheckStatus(String status)
+    {
+        myRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("Status", status);
+
+        myRef.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        CheckStatus("Online");
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        myRef.removeEventListener(seenListener);
+        CheckStatus("Offline");
     }
 }

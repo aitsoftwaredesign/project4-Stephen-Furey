@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +54,7 @@ public class ProfileFragment extends Fragment
     private static final int IMAGE_REQUEST = 1;
     private Uri imageUri;
     private StorageTask uploadTask;
+    private Object progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -122,9 +125,13 @@ public class ProfileFragment extends Fragment
 
     private void UploadMyImage()
     {
-        final ProgressDialog progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Uploading");
-        progressDialog.show();
+       /* final ProgressBar ProgressBar = new ProgressBar(getContext());
+        ProgressBar.setMessage("Uploading");
+        ProgressBar.show(); */
+
+        /*ProgressBar = progressBar.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE); // To show the ProgressBar
+        progressBar.setVisibility(View.INVISIBLE); // To hide the ProgressBar */
 
         if(imageUri != null)
         {
@@ -158,7 +165,7 @@ public class ProfileFragment extends Fragment
                         map.put("imageURL", myUri);
                         myRef.updateChildren(map);
 
-                        progressDialog.dismiss();
+                        //progressDialog.dismiss();
                     }
                     else
                     {
@@ -171,7 +178,7 @@ public class ProfileFragment extends Fragment
                 public void onFailure(@NonNull Exception e)
                 {
                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
                 }
             });
         }

@@ -6,17 +6,19 @@ public class Users
     private String id;
     private String username;
     private String imageURL;
+    private String status;
 
     public Users()
     {
 
     }
 
-    public Users(String id, String username, String imageURL)
+    public Users(String id, String username, String imageURL, String status)
     {
         this.id = id;
         this.username = username;
         this.imageURL = imageURL;
+        this.status = status;
     }
 
     //Getters and Setters
@@ -42,5 +44,15 @@ public class Users
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public String getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(String status)
+    {
+        this.status = status;
     }
 }
